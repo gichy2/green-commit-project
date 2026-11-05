@@ -14,24 +14,21 @@ The `task.sh` script generates random commit messages and updates an `update.md`
 
 5. It appends the last update timestamp to the `update.md` file.
 
-6. It configures local Git user information (you can replace the email and username with your own).
+6. It uses the Git identity configured by the workflow (or your local Git configuration when run locally).
 
 7. Finally, it commits the changes to the repository with a random commit message and the current timestamp.
 
-## Configure the default `GITHUB_TOKEN` permissions
+## Automated commits to your GitHub account
 
-By default, `GITHUB_TOKEN` only has `Read repository contents and packages permissions` (the restricted setting).
+The workflow uses GitHub Actions' automatically provided `GITHUB_TOKEN` to push commits, so no password or personal access token needs to be stored in this repository. It requests `contents: write` permission and sets the commit author to the GitHub account that triggered the workflow.
 
-1. Under your repository name, click **Settings**.
-2. In the left sidebar, click  **Actions**, then click **General**.
-3. Under "Workflow permissions", enable `Read and write permissions` (the permissive setting).
-4. Click **Save** to apply the settings.
+If pushes are denied, check **Settings → Actions → General → Workflow permissions** and allow read and write permissions. Scheduled runs are attributed to the account that configured the schedule; manually started runs are attributed to the account that starts them. Contribution graph credit also depends on GitHub's contribution rules.
 
 ## Customize
 
-- Replace the [Git user information](https://github.com/zhafranzainal/green-commit/blob/main/task.sh#L29) with your own.
-- Change the [cron schedule](https://github.com/zhafranzainal/green-commit/blob/main/.github/workflows/bot.yml#L13) for the automation of daily commits. (Refer: [https://crontab.guru/](https://crontab.guru/))
-- Modify the [messages array](https://github.com/zhafranzainal/green-commit/blob/main/task.sh#L3) to include your own commit messages.
+- For local runs, configure Git with your account's name and verified email using `git config --global user.name "Your Name"` and `git config --global user.email "your-verified-email@example.com"`.
+- Change the [cron schedule](.github/workflows/bot.yml) to adjust automation. (Refer to [crontab.guru](https://crontab.guru/).)
+- Modify the [messages array](task.sh) to include your own commit messages.
 
 ## Notes
 
